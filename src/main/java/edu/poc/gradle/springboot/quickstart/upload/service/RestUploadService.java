@@ -1,5 +1,6 @@
 package edu.poc.gradle.springboot.quickstart.upload.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -32,6 +33,12 @@ public class RestUploadService {
             
             // Get store path
             Path storePath = rootLocation.resolve(file.getOriginalFilename());
+            
+            // Check if file already exists in current location
+            File dir = new File(storePath.toString());
+            if (dir.exists()) {
+            	continue; // Go for next file
+            }
             
             // Copy byte stream of uploaded file into store path
             Files.copy(file.getInputStream(), storePath);
